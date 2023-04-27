@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import Shimmer from "../components/Shimmer";
 import { Link } from "react-router-dom";
 import BasicFormic from "./Formic"
+import useOnline from "../Utils/useOnline";
+import { ResList_API_URL } from "../Utils/constants";
 
 function filteredData(searchItems, listOfResturants) {
   return listOfResturants.filter((e) =>
@@ -18,9 +20,7 @@ const Body = () => {
   }, []);
 
   async function resListFromApi() {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5355161&lng=77.3910265&page_type=DESKTOP_WEB_LISTING"
-    );
+    const data = await fetch(ResList_API_URL);
     const json = await data.json();
     console.log(json);
     setListOfResturants(json?.data?.cards[2]?.data?.data?.cards);
@@ -28,6 +28,11 @@ const Body = () => {
 
   let [listOfResturants, setListOfResturants] = useState([]);
   const [searchItems, setsearchItems] = useState("");
+
+  const online = useOnline();
+  if(!online){
+    return <h1>Pls Check your internet connection</h1>
+  }
 
   return listOfResturants.length === 0 ? (
     <Shimmer />

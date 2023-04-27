@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { RES_URL } from "../Utils/constants";
 import { Resturants_Menu_API } from "../Utils/constants";
 import Shimmer from "./Shimmer";
-import useOnline from "../Utils/useOnline";
 
 
 
@@ -23,12 +22,7 @@ const ResturantMenu = () => {
     ResturantsMenuApi();
   }, []);
 
-  const online = useOnline();
-  // console.log(online);
-  if(!online){
-    console.log("offline");
-    return <h1>Pls Check your internet connection</h1>
-  }
+  
 
   return !resturantsMenu ? (
     <Shimmer />
